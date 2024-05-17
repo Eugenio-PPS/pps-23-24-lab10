@@ -24,4 +24,4 @@ greater(s(A), B) :- greater(A, B).
 max(L, N) :- max(L, zero, N).
 max(nil, P, P).
 max(cons(E, T), P, N) :- greater(E, P), max(T, E, N).
-max(cons(E, T), P, N) :- max(T, P, N).
+max(cons(E, T), P, N) :- greater(P, E), max(T, P, N).
