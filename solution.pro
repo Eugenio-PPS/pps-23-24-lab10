@@ -38,3 +38,6 @@ same(cons(X, A), cons(Y, B)) :- X=Y, same(A, B).
 
 all_bigger(nil, nil).
 all_bigger(cons(X, A), cons(Y, B)) :- greater(X, Y), all_bigger(A, B).
+
+sublist(nil, nil).
+% TODO
