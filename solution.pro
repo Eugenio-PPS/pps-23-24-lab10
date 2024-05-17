@@ -21,7 +21,14 @@ greater(s(zero), zero).
 greater(s(A), s(B)) :- greater(A, B).
 greater(s(A), B) :- greater(A, B).
 
-max(L, N) :- max(L, zero, N).
+max(cons(H, T), N) :- max(T, H, N).
 max(nil, P, P).
 max(cons(E, T), P, N) :- greater(E, P), max(T, E, N).
 max(cons(E, T), P, N) :- greater(P, E), max(T, P, N).
+
+min(cons(H, T), N) :- min(T, H, N).
+min(nil, P, P).
+min(cons(E, T), P, N) :- greater(P, E), min(T, E, N).
+min(cons(E, T), P, N) :- greater(E, P), min(T, P, N).
+
+min-max(L, Ma, Mi) :- min(L, Mi), max(L, Ma).
