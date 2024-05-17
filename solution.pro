@@ -32,3 +32,6 @@ min(cons(E, T), P, N) :- greater(P, E), min(T, E, N).
 min(cons(E, T), P, N) :- greater(E, P), min(T, P, N).
 
 min-max(L, Ma, Mi) :- min(L, Mi), max(L, Ma).
+
+same(nil, nil).
+same(cons(X, A), cons(Y, B)) :- X=Y, same(A, B).
