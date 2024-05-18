@@ -41,3 +41,9 @@ all_bigger(cons(X, A), cons(Y, B)) :- greater(X, Y), all_bigger(A, B).
 
 sublist(nil, nil).
 % TODO
+
+seq(zero, _, nil).
+seq(s(N), E, cons(E, T)) :- seq(N, E, T).
+
+seqR(zero, nil).
+seqR(s(N), s(zero, List)) :- seqR(N, List).
