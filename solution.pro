@@ -60,5 +60,42 @@ appendlast(nil, A, cons(A, nil)).
 appendlast(cons(H, T), A, cons(H, cons(A, nil))) :- isnil(T), appendlast(T, A, cons(A, nil)).
 appendlast(cons(H, T), A, cons(H, T1)) :- appendlast(T, A, T1).
 
+% Does not work!
 seqR2(zero, nil).
 seqR2(s(N), cons(N, List)) :- appendlast(List, N, X), seqR2(N, X).
+
+% ____            _     ____
+%|  _ \ __ _ _ __| |_  | ___|
+%| |_) / _` | '__| __| |___ \
+%|  __| (_| | |  | |_   ___) |
+%|_|   \__,_|_|   \__| |____/
+
+% last(L, X) is true if the list L ends with X
+last(cons(X, nil), X).
+last(cons(H, T), X) :- last(T, X).
+% last(cons(a, cons(b, nil)), b) -> yes
+% last(cons(a, cons(b, nil)), a) -> no
+% last(cons(a, cons(b, nil)), X) -> yes, X/b
+
+% add_one(L, M) M is a list with all elements in L incremented by one
+add_one(nil, nil).
+add_one(cons(s(N), T), cons(s(s(N)), T)) :- add_one(T, T).
+% add_one(cons(s(zero), nil), cons(s(s(zero)), nil)) -> yes
+% last(nil, _) -> no
+
+is_not_zero(s(_)).
+
+% filter_not_zero(L, M) M is a sublist of L without elements <= 0
+filter_not_zero(nil, nil).
+filter_not_zero(cons(LH, LT), cons(LH, MT)) :- is_not_zero(LH), filter_not_zero(LT, MT).
+filter_not_zero(cons(LH, LT), M) :- filter_not_zero(LT, M).
+% filter_not_zero(cons(zero, cons(s(zero), nil)), cons(s(zero), nil))
+
+% count_greater_zero(L, N) N is the number of elements in L > 0
+count_greater_zero(L, N) :- filter_not_zero(L, M), size(M, N).
+% count_greater_zero(cons(zero, cons(s(zero), nil)), s(zero))
+
+% find_greater_zero(L, X) X is an element in L | X > 0
+find_greater_zero(cons(H, T), X) :- find_greater_zero(T, X).
+find_greater_zero(cons(H, T), H) :- is_not_zero(H).
+% find_greater_zero(cons(s(zero), cons(zero, cons(s(s(zero)), nil))), X) -> yes, X/s(zero), X/s((s(zero))
