@@ -1,11 +1,17 @@
-search(X, cons(X, _ )).
-search(X, cons(_ , Xs)) :- search (X, Xs).
+search(X, cons(X, _)).
+search(X, cons(_, Xs)) :- search(X, Xs).
 
-search_anytwo(X, cons(X, T)) :- search(X, T).
-search_anytwo(X, cons(_, T)) :- search_anytwo(X, T).
+search2 (X , cons (X , cons (X , _ ) ) ).
+search2 (X , cons (_ , Xs ) ) :- search2 (X , Xs ).
+
+search_two (X , cons (X , cons (_ , cons(X, _) ) ) ).
+search_two (X , cons (_ , Xs ) ) :- search_two (X , Xs ).
+
+search_anytwo (X , cons (X , T )) :- search(X, T).
+search_anytwo (X , cons (_ , Xs ) ) :- search_anytwo (X , Xs ).
 
 size(nil, zero).
-size(cons(_, T), s(X)) :- size(T, X).
+size(cons(_, T), s(N)) :- size(T, N).
 % It allows for a pure relational behaviour: size(L, s(s(s(zero)))). -> L / cons(_1195,cons(_1197,cons(_1199,nil)))
 
 sum_list(nil, zero).
@@ -39,11 +45,17 @@ same(cons(X, A), cons(Y, B)) :- X=Y, same(A, B).
 all_bigger(nil, nil).
 all_bigger(cons(X, A), cons(Y, B)) :- greater(X, Y), all_bigger(A, B).
 
-sublist(nil, nil).
-% TODO
+sublist(nil, _).
+sublist(cons(H, T), L) :- search(H, L), sublist(T, L).
 
 seq(zero, _, nil).
 seq(s(N), E, cons(E, T)) :- seq(N, E, T).
 
 seqR(zero, nil).
-seqR(s(N), s(zero, List)) :- seqR(N, List).
+seqR(s(N), cons(zero, List)) :- seqR(N, List).
+
+appendlast(nil, A, cons(A, nil)).
+
+
+seqR2(zero, nil).
+seqR2(s(N), cons(N, List)) :- seqR2(s(N), List).
