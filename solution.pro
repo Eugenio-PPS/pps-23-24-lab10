@@ -52,7 +52,7 @@ seq(zero, _, nil).
 seq(s(N), E, cons(E, T)) :- seq(N, E, T).
 
 seqR(zero, nil).
-seqR(s(N), cons(zero, List)) :- seqR(N, List).
+seqR(s(N), cons(N, List)) :- seqR(N, List).
 
 isnil(nil).
 
@@ -61,4 +61,4 @@ appendlast(cons(H, T), A, cons(H, cons(A, nil))) :- isnil(T), appendlast(T, A, c
 appendlast(cons(H, T), A, cons(H, T1)) :- appendlast(T, A, T1).
 
 seqR2(zero, nil).
-seqR2(s(N), cons(N, List)) :- seqR2(s(N), List).
+seqR2(s(N), cons(N, List)) :- appendlast(List, N, X), seqR2(N, X).
