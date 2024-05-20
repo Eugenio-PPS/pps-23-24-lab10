@@ -99,3 +99,33 @@ count_greater_zero(L, N) :- filter_not_zero(L, M), size(M, N).
 find_greater_zero(cons(H, T), X) :- find_greater_zero(T, X).
 find_greater_zero(cons(H, T), H) :- is_not_zero(H).
 % find_greater_zero(cons(s(zero), cons(zero, cons(s(s(zero)), nil))), X) -> yes, X/s(zero), X/s((s(zero))
+
+% drop_right(A, N, B) if B is a list equal to A up to the (len(A) - N)-th element
+% FIXME
+drop_right(nil, _, nil).
+drop_right(_, zero, nil).
+drop_right(cons(H, A), s(N), cons(H, B)) :- drop_right(A, N, B).
+% drop_right(cons(a, nil), zero, nil) -> yes
+% drop_right(cons(a, cons(b, nil)), s(zero), cons(a, nil)) -> yes
+% drop_right(cons(a, cons(b, nil)), X, cons(a, nil)) -> yes, X/s(zero)
+
+% drop_while_greater_zero(L, M) Drop elements of L until they're <= 0, then take the rest into M
+drop_while_greater_zero(nil, nil).
+drop_while_greater_zero(cons(zero, T), cons(zero, T)).
+drop_while_greater_zero(cons(H, T), M) :- is_not_zero(H), drop_while_greater_zero(T, M).
+% drop_while_greater_zero(cons(s(zero), cons(zero, nil)), X) -> yes, X / cons(zero, nil)
+% drop_while_greater_zero(cons(zero, cons(s(zero), nil)), X) -> yes, X / cons(zero,cons(s(zero),nil))
+
+% partition_greater_zero(L, A, B) all elements of L > 0 are in A, the others in B
+% FIXME
+partition_greater_zero(nil, nil, nil).
+partition_greater_zero(cons(H, T), A, B) :- is_not_zero(H), partition_greater_zero(T, cons(H, A), B).
+partition_greater_zero(cons(zero, T), A, B) :- partition_greater_zero(T, A, cons(zero, B)).
+
+% take(A, N, B) if B is a list equal to A up to the N-th element
+take(nil, _, nil).
+take(_, zero, nil).
+take(cons(H, A), s(N), cons(H, B)) :- drop(A, N, B).
+% take(cons(a, nil), zero, nil) -> yes
+% take(cons(a, cons(b, nil)), s(zero), cons(a, nil)) -> yes
+% take(cons(a, cons(b, nil)), X, cons(a, nil)) -> yes, X/s(zero)
